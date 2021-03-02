@@ -137,7 +137,7 @@ static int tusbh_msc_bot_xfer(tusbh_interface_t* interface, tusb_msc_cbw_t* cbw,
             }
         }
         ep = info->in_ep;
-        res = tusbh_ep_xfer(ep, &csw, BOT_CSW_LENGTH, 5000);
+        res = tusbh_ep_xfer(ep, &csw, BOT_CSW_LENGTH, 10000);
         if(res<0){
             break;
         }

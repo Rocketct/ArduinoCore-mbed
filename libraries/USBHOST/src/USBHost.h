@@ -10,7 +10,7 @@ extern "C" {
 #include "string.h"
 #include "class/host/usb_key_code.h"
 }
-
+#include "USBfilesystem/USBFileSystem.h"
 #include "mbed.h"
 #include "usb_phy_api.h"
 

@@ -6,6 +6,7 @@ static rtos::Thread t(osPriorityHigh);
 void USBHost::InternalTask() {
   while (1) {
     tusbh_msg_loop(mq);
+    delay(1);
   }
 }
 
@@ -22,7 +23,7 @@ uint32_t USBHost::Init(uint8_t id, const tusbh_class_reg_t class_table[]) {
     root_fs.support_classes = class_table;
     tusb_host_init(_fs, &root_fs);
     tusb_open_host(_fs);
-    start_hub();
+    //start_hub();
   }
 
   if (id == USB_CORE_ID_HS) {
