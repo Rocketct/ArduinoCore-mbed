@@ -37,7 +37,7 @@
 
 #ifdef ARDUINO_ARCH_MBED
 #define NO_DEVICE
-#define TUSB_HAS_OS
+//#define TUSB_HAS_OS
 #endif
 
 #include "teeny_usb_platform.h"

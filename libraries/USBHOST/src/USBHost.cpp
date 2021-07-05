@@ -4,7 +4,7 @@
 static rtos::Thread t(osPriorityHigh);
 
 void USBHost::supplyPowerOnVBUS(bool enable){
-  mbed::DigitalOut otg(PJ_6, enable ? 0 : 1);
+  mbed::DigitalOut otg(PB_8, enable ? 0 : 1);
 }
 
 void USBHost::InternalTask() {
@@ -20,13 +20,14 @@ uint32_t USBHost::Init(uint8_t id, const tusbh_class_reg_t class_table[]) {
 
   if (id == USB_CORE_ID_FS) {
     _fs = tusb_get_host(USB_CORE_ID_FS);
+    supplyPowerOnVBUS(1);
     HOST_PORT_POWER_ON_FS();
     root_fs.mq = mq;
     root_fs.id = "FS";
     root_fs.support_classes = class_table;
     tusb_host_init(_fs, &root_fs);
     tusb_open_host(_fs);
-    start_hub();
+   // start_hub();
   }
 
   if (id == USB_CORE_ID_HS) {
@@ -43,19 +44,19 @@ uint32_t USBHost::Init(uint8_t id, const tusbh_class_reg_t class_table[]) {
     tusb_open_host(_hs);
   }
 
-  t.start(mbed::callback(this, &USBHost::InternalTask));
+ // t.start(mbed::callback(this, &USBHost::InternalTask));
 }
 
 
 
 uint32_t USBHost::Task() {
-
+tusbh_msg_loop(mq);
 }
 
 extern "C" {
   // host need accurate delay
   void tusb_delay_ms(uint32_t ms)
   {
-    delay(ms);
+    delayMicroseconds(1000*ms);
   }
 }
